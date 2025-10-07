@@ -1,0 +1,59 @@
+{
+  "Uuid": "d52a8c04-3bb7-4ad8-9e80-84d65e1f648f",
+  "IsCustomNode": false,
+  "Description": "Sets the Comments parameter of all rooms to 'Hello Codex'.",
+  "Name": "HelloCodexRooms",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\nclr.AddReference(\"RevitServices\")\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\nclr.AddReference(\"RevitAPI\")\nfrom Autodesk.Revit.DB import BuiltInCategory, FilteredElementCollector\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nrooms = list(FilteredElementCollector(doc)\n             .OfCategory(BuiltInCategory.OST_Rooms)\n             .WhereElementIsNotElementType())\n\nTransactionManager.Instance.EnsureInTransaction(doc)\nupdated = []\nfor room in rooms:\n    param = room.LookupParameter(\"Comments\")\n    if param and not param.IsReadOnly:\n        param.Set(\"Hello Codex\")\n        updated.append(room)\nTransactionManager.Instance.TransactionTaskDone()\n\nOUT = updated\n",
+      "Engine": "IronPython2",
+      "VariableInputPorts": false,
+      "Id": "0a4a26e7-95c6-4a3a-86ce-fef67cc64d29",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d692a33b-62fa-4d70-8d1f-8028c612fefd",
+          "Name": "OUT",
+          "Description": "Rooms updated with the comment.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "IsVisible": true,
+      "IsUpstreamVisible": true,
+      "IsSelected": false,
+      "ShowGeometry": true,
+      "Excluded": false,
+      "Width": 300.0,
+      "Height": 400.0,
+      "X": 0.0,
+      "Y": 0.0
+    }
+  ],
+  "Connectors": [],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Author": "",
+  "Bindings": [],
+  "View": {
+    "Camera": {
+      "Name": "Background Preview",
+      "Eye": "-17, 24, 50",
+      "Up": "0, 1, 0",
+      "Target": "12, -17, -34"
+    }
+  },
+  "RunType": "Manual",
+  "RunPeriod": "0",
+  "FileVersion": "2.19.3.0"
+}

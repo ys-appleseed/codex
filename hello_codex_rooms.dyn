@@ -13,7 +13,7 @@
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
       "Code": "import clr\nclr.AddReference(\"RevitServices\")\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\nclr.AddReference(\"RevitAPI\")\nfrom Autodesk.Revit.DB import BuiltInCategory, FilteredElementCollector\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nrooms = list(FilteredElementCollector(doc)\n             .OfCategory(BuiltInCategory.OST_Rooms)\n             .WhereElementIsNotElementType())\n\nTransactionManager.Instance.EnsureInTransaction(doc)\nupdated = []\nfor room in rooms:\n    param = room.LookupParameter(\"Comments\")\n    if param and not param.IsReadOnly:\n        param.Set(\"Hello Codex\")\n        updated.append(room)\nTransactionManager.Instance.TransactionTaskDone()\n\nOUT = updated\n",
-      "Engine": "IronPython2",
+      "Engine": "CPython3",
       "VariableInputPorts": false,
       "Id": "0a4a26e7-95c6-4a3a-86ce-fef67cc64d29",
       "Inputs": [],

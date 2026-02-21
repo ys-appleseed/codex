@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hangman</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="panel panel-header">
+        <h1 id="app-title"></h1>
+        <p id="app-subtitle"></p>
+      </header>
+
+      <section class="panel game-panel">
+        <div class="hangman-column">
+          <pre id="hangman-art" aria-live="polite"></pre>
+          <p id="remaining-text"></p>
+        </div>
+
+        <div class="status-column">
+          <h2 id="word-display" aria-live="polite"></h2>
+          <p id="status-message" aria-live="polite"></p>
+          <p id="input-hint"></p>
+
+          <p class="meta-label" id="hint-label"></p>
+          <p id="hint-value">-</p>
+
+          <p class="meta-label" id="wrong-label"></p>
+          <p id="wrong-letters">-</p>
+
+          <div id="round-result" hidden>
+            <p><strong id="answer-label"></strong>: <span id="answer-value"></span></p>
+            <p><strong id="result-hint-label"></strong>: <span id="result-hint-value"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel keyboard-panel">
+        <div id="keyboard" class="keyboard" role="group" aria-label="Keyboard"></div>
+      </section>
+
+      <section class="panel controls-panel">
+        <button id="new-round-btn" type="button"></button>
+      </section>
+
+      <section id="error-panel" class="panel error-panel" hidden aria-live="assertive"></section>
+    </main>
+
+    <script>
+      (function () {
+        const script = document.createElement("script");
+
+        if (window.location.protocol === "file:") {
+          script.src = "./src/app.classic.js";
+        } else {
+          script.type = "module";
+          script.src = "./src/app.js";
+        }
+
+        document.body.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>
